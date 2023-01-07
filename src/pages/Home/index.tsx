@@ -3,11 +3,19 @@ import './styles.css';
 
 import { Card , CardProps} from '../../components/Card';
 
+type ProfileReponse = {
+  name: string,
+  avatar_url:string
+}
 
+type user = {
+  name: string,
+  avatar: string
+}
 export function Home() {
   const [studentName, setStudentName] = useState('');
-  const [students, setStudents] = useState<CardProps[]>([]);
-  const [user, setUser] = useState({ name: '', avatar: '' });
+  const [students, setStudents] = useState<CardProps[]>([]); //CardProps tipando o estaado
+  const [user, setUser] = useState<user>({} as user);
 
   function handleAddStudent() {
     const newStudent = {
@@ -26,8 +34,9 @@ export function Home() {
   useEffect(() => {
     async function fetchData() {
       const response = await fetch('https://api.github.com/users/rodrigorgtic');
-      const data = await response.json();
-      console.log("DADOS ===> ", data);
+      const data = await response.json() as ProfileReponse;
+      data.avatar_url
+      
 
       setUser({
         name: data.name,
